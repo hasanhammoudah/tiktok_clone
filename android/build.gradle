@@ -13,10 +13,11 @@ buildscript {
 }
 
 allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+  repositories {
+     google()
+     mavenCentral()
+     jcenter()  // add
+}
 }
 
 rootProject.buildDir = '../build'
