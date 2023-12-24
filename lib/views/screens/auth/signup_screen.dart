@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tiktok_clone/constants.dart';
-import 'package:tiktok_clone/views/screens/widgets/text_input_field.dart';
+import 'package:tiktok_clone/views/screens/auth/login_screen.dart';
+import 'package:tiktok_clone/views/widgets/text_input_field.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -48,7 +50,7 @@ class SignUpScreen extends StatelessWidget {
                     bottom: -10,
                     left: 80,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () => authController.pickImage(),
                       icon: const Icon(
                         Icons.add_a_photo,
                       ),
@@ -90,6 +92,7 @@ class SignUpScreen extends StatelessWidget {
                   controller: _passwordController,
                   labelText: 'Password',
                   icon: Icons.password,
+                  obscureText: true,
                 ),
               ),
               const SizedBox(
@@ -105,9 +108,12 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
                 child: InkWell(
-                  onTap: () {
-                    print('login user');
-                  },
+                  onTap: () => authController.registerUser(
+                    _usernameController.text,
+                    _emailController.text,
+                    _passwordController.text,
+                    authController.profilePhoto,
+                  ),
                   child: const Center(
                     child: Text(
                       'Register',
@@ -132,7 +138,9 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(LoginScreen());
+                    },
                     child: Text(
                       'Login',
                       style: TextStyle(fontSize: 20, color: buttonColor),
