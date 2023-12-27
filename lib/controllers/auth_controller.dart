@@ -16,7 +16,7 @@ class AuthController extends GetxController {
   late Rx<User?> _user;
 
   File? get profilePhoto => _pickedImage.value;
-
+  User get user => _user.value!;
 
   @override
   void onReady() {
@@ -25,7 +25,6 @@ class AuthController extends GetxController {
     _user.bindStream(firebaseAuth.authStateChanges());
     ever(_user, _setInitialScreen);
   }
-
 
   _setInitialScreen(User? user) {
     if (user == null) {

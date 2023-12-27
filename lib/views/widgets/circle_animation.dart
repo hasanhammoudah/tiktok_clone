@@ -16,15 +16,15 @@ class _CircleAnimationState extends State<CircleAnimation>
   void initState() {
     super.initState();
     controller = AnimationController(
-        vsync: this, duration: const Duration(microseconds: 5000));
+        vsync: this, duration: const Duration(milliseconds: 5000));
     controller.forward();
     controller.repeat();
   }
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
   @override
