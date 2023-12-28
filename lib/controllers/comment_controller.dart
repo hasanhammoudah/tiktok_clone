@@ -7,7 +7,7 @@ class CommentController extends GetxController {
   final Rx<List<Comment>> _comments = Rx<List<Comment>>([]);
   List<Comment> get comments => _comments.value;
 
-  String _postId = '';
+  String _postId = "";
 
   updatePostId(String id) {
     _postId = id;
@@ -21,13 +21,15 @@ class CommentController extends GetxController {
           .doc(_postId)
           .collection('comments')
           .snapshots()
-          .map((QuerySnapshot query) {
-        List<Comment> retValue = [];
-        for (var element in query.docs) {
-          retValue.add(Comment.fromSnap(element));
-        }
-        return retValue;
-      }),
+          .map(
+        (QuerySnapshot query) {
+          List<Comment> retValue = [];
+          for (var element in query.docs) {
+            retValue.add(Comment.fromSnap(element));
+          }
+          return retValue;
+        },
+      ),
     );
   }
 
@@ -43,24 +45,25 @@ class CommentController extends GetxController {
             .doc(_postId)
             .collection('comments')
             .get();
-
         int len = allDocs.docs.length;
+
         Comment comment = Comment(
           username: (userDoc.data()! as dynamic)['name'],
-          uid: authController.user.uid,
-          profilePhoto: (userDoc.data()! as dynamic)['profilePhoto'],
-          likes: [],
-          id: 'Comment $len',
-          datePublished: DateTime.now(),
           comment: commentText.trim(),
+          datePublished: DateTime.now(),
+          likes: [],
+          profilePhoto: (userDoc.data()! as dynamic)['profilePhoto'],
+          uid: authController.user.uid,
+          id: 'Comment $len',
         );
         await firestore
             .collection('videos')
             .doc(_postId)
             .collection('comments')
             .doc('Comment $len')
-            .set(comment.toJson());
-
+            .set(
+              comment.toJson(),
+            );
         DocumentSnapshot doc =
             await firestore.collection('videos').doc(_postId).get();
         await firestore.collection('videos').doc(_postId).update({
@@ -68,7 +71,10 @@ class CommentController extends GetxController {
         });
       }
     } catch (e) {
-      Get.snackbar('Error While Commenting', e.toString());
+      Get.snackbar(
+        'Error While Commenting',
+        e.toString(),
+      );
     }
   }
 
@@ -81,7 +87,7 @@ class CommentController extends GetxController {
         .doc(id)
         .get();
 
-    if ((doc.data() as dynamic)['likes'].contains(uid)) {
+    if ((doc.data()! as dynamic)['likes'].contains(uid)) {
       await firestore
           .collection('videos')
           .doc(_postId)

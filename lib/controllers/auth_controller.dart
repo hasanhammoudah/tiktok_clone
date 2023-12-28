@@ -10,10 +10,8 @@ import 'package:tiktok_clone/views/screens/home_screen.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
-
-  // TODO
-  late Rx<File?> _pickedImage;
   late Rx<User?> _user;
+  late Rx<File?> _pickedImage;
 
   File? get profilePhoto => _pickedImage.value;
   User get user => _user.value!;
@@ -39,7 +37,7 @@ class AuthController extends GetxController {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       Get.snackbar('Profile Picture',
-          'You have successfully slected your profile picture!');
+          'You have successfully selected your profile picture!');
     }
     _pickedImage = Rx<File?>(File(pickedImage!.path));
   }
@@ -95,17 +93,14 @@ class AuthController extends GetxController {
     }
   }
 
-  // login the user
-
   void loginUser(String email, String password) async {
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
         await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
-        print('log success');
       } else {
         Get.snackbar(
-          'Error Logging in Account',
+          'Error Logging in',
           'Please enter all the fields',
         );
       }
@@ -115,5 +110,9 @@ class AuthController extends GetxController {
         e.toString(),
       );
     }
+  }
+
+  void signOut() async {
+    await firebaseAuth.signOut();
   }
 }
