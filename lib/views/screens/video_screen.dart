@@ -40,7 +40,7 @@ class VideoScreen extends StatelessWidget {
     );
   }
 
-  //TODO
+ 
   buildMusicAlbum(String profilePhoto) {
     return SizedBox(
       width: 60,
